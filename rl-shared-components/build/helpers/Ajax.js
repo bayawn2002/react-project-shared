@@ -14,13 +14,14 @@ var Ajax = function () {
 
   _createClass(Ajax, [{
     key: 'get',
-    value: function get(url, data) {
-      var headers = {
-        'Content-Type': 'application/json'
-      };
-      if (auth.getAuthToken()) headers.Authorization = auth.getAuthToken();
+    value: function get(options) {
+      var headers = {};
 
-      return fetch(url, {
+      if (options.json) headers['Content-Type'] = 'application/json';
+
+      if (options.authToken) headers.Authorization = auth.getAuthToken();
+
+      return fetch(options.url, {
         method: 'GET',
         headers: headers
       }).then(function (result) {
@@ -31,7 +32,7 @@ var Ajax = function () {
     }
   }, {
     key: 'post',
-    value: function post(url, data) {
+    value: function post(options) {
       var headers = {
         'Content-Type': 'application/json'
       };

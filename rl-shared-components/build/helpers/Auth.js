@@ -21,7 +21,7 @@ var Auth = function () {
     key: 'getAuthToken',
     value: function getAuthToken() {
       var authToken = localStorage.getItem('authToken');
-      console.log(authToken);
+
       if (authToken) return authToken;else return false;
     }
   }, {
@@ -33,19 +33,22 @@ var Auth = function () {
     key: 'authCheck',
     value: function authCheck(url) {
       var self = this;
-      return ajax.get(url).then(function (data) {
+      return ajax.get({ url: url }).then(function (data) {
 
         if (!data.authFailed) self.isLoggedIn = true;
 
         return data;
       });
     }
+
+    //process.env.REACT_APP_API_HOST + ':' + process.env.REACT_APP_API_PORT + '/' + process.env.REACT_APP_API_PATH + 'login?u=' + username + '&p=' + password
+
   }, {
     key: 'login',
-    value: function login(username, password) {
+    value: function login(url) {
       var self = this;
 
-      return ajax.get(process.env.REACT_APP_API_HOST + ':' + process.env.REACT_APP_API_PORT + '/' + process.env.REACT_APP_API_PATH + 'login?u=' + username + '&p=' + password).then(function (data) {
+      return ajax.get().then(function (data) {
 
         if (typeof data === "undefined" || data.loginFailed) return data;
 
